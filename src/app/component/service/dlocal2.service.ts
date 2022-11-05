@@ -31,23 +31,21 @@ export class DLocal2Service {
     });
 
     this.card = this.fields.create('card', { style: this.style });
-    this.expiration = this.fields.create('expiration', { style: this.style });
-    this.cvv = this.fields.create('cvv', { style: this.style});
+    // this.expiration = this.fields.create('expiration', { style: this.style });
+    // this.cvv = this.fields.create('cvv', { style: this.style});
   }
 
   mount(){
     this.mountCard();
-    this.mountExpiation();
-    this.mountCvv();
   }
 
-  mountExpiation(){
-    this.expiration.mount(document.getElementById('expiration'))
-  }
+  // mountExpiation(){
+  //   this.expiration.mount(document.getElementById('expiration'))
+  // }
 
-  mountCvv(){
-    this.cvv.mount(document.getElementById('cvv'))
-  }
+  // mountCvv(){
+  //   this.cvv.mount(document.getElementById('cvv'))
+  // }
 
   getCardElement() {
     this.element = document.getElementById('card-field')
@@ -65,17 +63,6 @@ export class DLocal2Service {
           displayError.textContent = '';
         }
       }
-    })
-    this.card.on('brand', (event: any) => {
-      this.dlocalInstance.createInstallmentsPlan(this.card, 1000, 'UYU')
-        .then((response: any) => {
-          const installmentsSelect = document.getElementById('');
-          this.buildInstallments(installmentsSelect, response.installments);   
-        })
-        .catch(() =>{
-          console.log('Error creating installments plan');
-          
-        });
     })
   }
 
