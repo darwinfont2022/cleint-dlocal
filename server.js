@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const { appendFile } = require('fs');
 
+const app = express();
+
 app.use(express.static(__dirname + '/dist/small-fields2'))
 
 app.get('/*', (req, res) => {
