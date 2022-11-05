@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+
+        width: 80vw;
+
+        
+    }
+}
+
+#card-field {
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    input {
+        background-color: black;
+    }
+}
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
