@@ -31,21 +31,11 @@ export class DLocal2Service {
     });
 
     this.card = this.fields.create('card', { style: this.style });
-    // this.expiration = this.fields.create('expiration', { style: this.style });
-    // this.cvv = this.fields.create('cvv', { style: this.style});
   }
 
   mount(){
     this.mountCard();
   }
-
-  // mountExpiation(){
-  //   this.expiration.mount(document.getElementById('expiration'))
-  // }
-
-  // mountCvv(){
-  //   this.cvv.mount(document.getElementById('cvv'))
-  // }
 
   getCardElement() {
     this.element = document.getElementById('card-field')
@@ -53,7 +43,9 @@ export class DLocal2Service {
   }
 
   mountCard() {
+    // Mounting card element
     this.card.mount(document.getElementById('card-field'))
+    // Handling errors
     this.card.addEventListener('change', (event: any) => {
       let displayError = document.getElementById('card-errors');
       if (displayError) {
@@ -65,15 +57,6 @@ export class DLocal2Service {
       }
     })
   }
-
-  buildInstallments(installmentsInput:any, installmentsPlan:any) {
-    const installmentsOptions = installmentsPlan.installments.reduce(function (options: any, plan: any) {
-            options += "<option value=" + plan.id + ">" + plan.installments + " of " + "currency" + " " + plan.installment_amount + " (Total : " + "currency" + " " + plan.total_amount + ")</option>";
-            return options;
-    }, "");
-    installmentsInput.disabled = false;
-    installmentsInput.innerHTML = installmentsOptions;
-}
 
   generateToken(cardHolderName: string){
     // const cardHolderName: HtmlE = document.getElementById('card-holder');
