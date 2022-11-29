@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  smallKey: '472e55c5-ebcb-4326-8036-cdfe6bcec7d0',
+  apiUrl: 'https://dlocal-service.herokuapp.com',
+  methods: '/methods'
+  
 };
 
 /*
