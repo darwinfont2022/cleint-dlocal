@@ -6,8 +6,15 @@ export const environment = {
   production: false,
   smallKey: '472e55c5-ebcb-4326-8036-cdfe6bcec7d0',
   apiUrl: 'https://dlocal-service.herokuapp.com',
-  methods: '/methods'
+  methods: '/methods',
+
+  apiUrlDirect: '/payments',
+  cardInfo: '/cardInfo',
+  cardToken: '/cardToken',
   
+  apiUrlRedirect: '/redirect-payment',
+  ticketsUrl: '/payment-ticket',
+  bankTransfer: '/bankTransfer',
 };
 
 /*
