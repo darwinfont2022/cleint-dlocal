@@ -20,3 +20,5 @@ export interface PaymentDto {
     type: string;
     token: string;
 }
+
+export type PaymentCardInfo = Omit<PaymentDto, 'name' | 'user_reference' | 'token' | 'type'> 

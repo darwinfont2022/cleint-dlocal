@@ -1,0 +1,40 @@
+<ng-template #content let-modal>
+<form action="submit" (ngSubmit)="pay()" class="card" [formGroup]="form">
+    <div class="card-header">
+        <h3>
+            Card Info
+        </h3>
+    </div>
+    <div class="card-body">
+        <div class="row mt-2 justify-content-center">
+            <div class="col-md-8">
+                <label for="inputCardName" class="form-label">Card Name</label>
+                <input type="text" formControlName="holder_name" class="form-control" id="inputCardName" placeholder="Darwin Font" min="0">
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-md-4">
+                <label for="inputNumber" class="form-label">Card Number</label>
+                <input type="number" formControlName="number" class="form-control" id="inputNumber" placeholder="4111 1111 1111 1111" min="16">
+            </div>
+            <div class="col-md-2">
+                <label for="inputCvv" class="form-label">Expiration</label>
+                <input type="text" 
+                  formControlName="expiration"
+                  class="form-control"
+                  id="inputCvv"
+                  placeholder="12/24"
+                  pattern="\d{2}\/\d{2,4}"
+                  min="3">
+            </div>
+            <div class="col-md-2">
+                <label for="inputCvv" class="form-label">Cvv</label>
+                <input type="number" formControlName="cvv" class="form-control" id="inputCvv" placeholder="123" min="3">
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-primary mt-3" [disabled]="!form.valid">Pagar</button>
+        </div>
+    </div>
+</form>
+</ng-template>

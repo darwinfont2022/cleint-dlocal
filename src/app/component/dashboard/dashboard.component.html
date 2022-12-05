@@ -12,21 +12,34 @@
                         <div class="card m-3 text-center">
                             <div class="card-body">
                                 <div class="m-3">
-                                    <button type="button" class="btn btn-primary w-100"
-                                        routerLink="/generate-order">Card Info</button>
+                                    <a class="btn btn-primary w-100" [routerLink]="['/generate-order']"
+                                        [queryParams]="{ type:'cardInfo' }" queryParamsHandling="merge">
+                                        Card Info
+                                    </a>
                                 </div>
                                 <div class="m-3">
-                                    <button type="button" class="btn btn-primary w-100">Redirect Dlocal
-                                        landings</button>
+                                    <a class="btn btn-primary w-100" [routerLink]="['/generate-order']"
+                                        [queryParams]="{ type:'redirectLandig' }" queryParamsHandling="merge">
+                                        Redirect Dlocal landings
+                                    </a>
                                 </div>
                                 <div class="m-3">
-                                    <button type="button" class="btn btn-primary w-100">Tiket</button>
+                                    <a class="btn btn-primary w-100" [routerLink]="['/generate-order']"
+                                        [queryParams]="{ type:'tiket' }" queryParamsHandling="merge">
+                                        Tiket
+                                    </a>
                                 </div>
                                 <div class="m-3">
-                                    <button type="button" class="btn btn-primary w-100">Banc transference</button>
+                                    <a class="btn btn-primary w-100" [routerLink]="['/generate-order']"
+                                        [queryParams]="{ type:'bancTransfer' }" queryParamsHandling="merge">
+                                        Banc transference
+                                    </a>
                                 </div>
                                 <div class="m-3">
-                                    <button type="button" class="btn btn-primary w-100">Small Fields</button>
+                                    <a class="btn btn-primary w-100" [routerLink]="['/generate-order']"
+                                        [queryParams]="{ type:'smallField' }" queryParamsHandling="merge">Small
+                                        Fields
+                                    </a>
                                 </div>
                             </div>
                         </div>

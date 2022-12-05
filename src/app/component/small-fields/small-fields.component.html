@@ -1,7 +1,4 @@
-
-<router-outlet></router-outlet>
-
-<!-- <form id="payment-form" class="container">
+<form id="payment-form" class="container" [formGroup]="form" (ngSubmit)="pay()">
   <div class="row">
     <div class="col-md-4">
       <label for="card-field">
@@ -20,7 +17,7 @@
   </div>
   <div class="form-row">
     <label>Cardholder name</label>
-    <input id="card-holder" type="text" name="card-holder" placeholder="John Doe" [(ngModel)]="cardHolderName" />
+    <input id="card-holder" type="text" name="card-holder" placeholder="John Doe" formControlName="cardHolderName" />
   </div>
-  <button (click)="pay()" type="button">Pay</button>
-</form> -->
+  <button type="submit" class="btn btn-primary" [disabled]="!form.valid" >Pay</button>
+</form> 

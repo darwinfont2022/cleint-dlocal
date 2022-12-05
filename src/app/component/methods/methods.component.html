@@ -1,4 +1,12 @@
-<div *ngFor="let method of methods">
-    <img [src]="method.logo" />
-    <span>{{method.name}}</span>
+<div class="method-container mx-auto p-3  w-75">
+    <div class="method-header text-center">
+        <h3>Seleccione metodo de pago</h3>
+    </div>
+    <div class="container-grid">
+        <div *ngFor="let method of methods" class="">
+            <div>
+                <img [src]="method.logo" class="img" (click)="onSelect(method)"/>
+            </div>
+        </div>
+    </div>
 </div>

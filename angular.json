@@ -72,7 +72,8 @@
               "browserTarget": "small-fields2:build:production"
             },
             "development": {
-              "browserTarget": "small-fields2:build:development"
+              "browserTarget": "small-fields2:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

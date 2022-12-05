@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DLocal2Service } from './component/service/dlocal2.service';
+import { Subscription } from 'rxjs';
+import { DLocalService } from './service/dlocal/dlocal2.service';
 
 
 @Component({
@@ -10,17 +11,34 @@ import { DLocal2Service } from './component/service/dlocal2.service';
 export class AppComponent implements OnInit {
   title = 'small-fields';
 
+  private subscriptions: Subscription;
   cardHolderName: string = "";
 
-  constructor(public dlocal: DLocal2Service) {
+  public paymentMethod: any[];
+
+  constructor(
+    // public dlocal: DLocal2Service
+    ) {
+    this.subscriptions = new Subscription();
+    this.paymentMethod = [];
   }
 
   ngOnInit(): void {
-    console.log('Div card',this.dlocal.getCardElement());
-    this.dlocal.mount();
+    // console.log('Div card',this.dlocal.getCardElement());
+    // this.dlocal.mount();
+    // this.getPaymentMethods();
   }
 
   pay(){
-    this.dlocal.generateToken(this.cardHolderName)
+    // this.dlocal.generateToken(this.cardHolderName)
+  }
+
+  getPaymentMethods(){
+    // this.subscriptions.add(this.dlocal.getMethods().subscribe((response: any) => {
+    //   this.paymentMethod = response;
+    //   console.log(this.paymentMethod);
+    // }, error => {
+    //   console.log(error);
+    // }));
   }
 }

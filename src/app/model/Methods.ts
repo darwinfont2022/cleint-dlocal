@@ -3,7 +3,7 @@ export interface Method {
     logo: string; 
     name: string;
     type: string;
-    allowed_flows: FLOW[]
+    allowed_flows: string[]
 }
 
 export enum FLOW {

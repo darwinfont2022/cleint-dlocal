@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   smallKey: '472e55c5-ebcb-4326-8036-cdfe6bcec7d0',
-  apiUrl: 'https://dlocal-service.herokuapp.com',
+  apiUrl: 'https://darwinfont.loca.lt',
   methods: '/methods',
 
   apiUrlDirect: '/payments',

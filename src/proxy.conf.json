@@ -1,0 +1,10 @@
+{
+    "/methods": {
+        "target": "https://darwinfont.loca.lt/methods",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/methods": ""
+        }
+    }
+}

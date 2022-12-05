@@ -1,0 +1,66 @@
+<div class="container-fluid">
+<div class="row justify-content-center align-items-center">
+    <form class="col-md-6" [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+        <div class="card m-3">
+            <div class="card-header">
+                <h4>Orden Id: {{this.order.order_id}}</h4>
+            </div>
+            <div class="row">
+                <div class="col m-3">
+                    <label for="inputMonto" class="form-label">Monto</label>
+                    <input type="number" class="form-control" id="inputMonto" value="1000" min="0" formControlName="amount">
+                </div>
+                <div class="col m-3">
+                    <label for="inputCurrenci" class="form-label">Moneda</label>
+                    <select id="inputCurrenci" class="form-select" formControlName="currency">
+                        <option selected>UYU</option>
+                        <option>BRL</option>
+                        <option>MNX</option>
+                        <option>USD</option>
+                    </select>
+                </div>
+                <div class="col m-3">
+                    <label for="inputState" class="form-label">Pais</label>
+                    <select id="inputState" class="form-select" formControlName="country">
+                        <option selected>Uruguay</option>
+                        <option>Brasil</option>
+                        <option>Mexico</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row p-3 w-100">
+                <div class="card-header">
+                    Informacion del usuario
+                </div>
+            </div>
+            <div class="row p-3 w-100">
+                <div class="row">
+                    <div class="col mt-1">
+                        <label for="inputRefer" class="form-label">ID</label>
+                    </div>
+                    <div class="col mt-1">
+                        <label for="inputRefer" class="form-label">{{usuarioId}}</label>
+                    </div>
+                </div>
+                <div class="col mt-1">
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="inputName" formControlName="name" />
+                </div>
+                <div class="col mt-1">
+                    <label for="inputDocumento" class="form-label">Documento</label>
+                    <input type="text" class="form-control" id="inputDocumento" min="8" formControlName="document">
+                </div>
+            </div>
+            <div class="row p-3 w-100">
+                <div class="col">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="inputEmail" min="15" formControlName="email">
+                </div>
+            </div>
+            <div class="m-3">
+                <button type="submit" class="btn btn-primary w-100"  [disabled]="!orderForm.valid">Generar orden</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>

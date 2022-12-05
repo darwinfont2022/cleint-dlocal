@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MethodsComponent } from './methods.component';
+import { SmallFieldsComponent } from './small-fields.component';
 
-xdescribe('MethodsComponent', () => {
-  let component: MethodsComponent;
-  let fixture: ComponentFixture<MethodsComponent>;
+describe('SmallFieldsComponent', () => {
+  let component: SmallFieldsComponent;
+  let fixture: ComponentFixture<SmallFieldsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MethodsComponent ]
+      declarations: [ SmallFieldsComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(MethodsComponent);
+    fixture = TestBed.createComponent(SmallFieldsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

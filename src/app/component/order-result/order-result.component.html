@@ -1,0 +1,20 @@
+<div class="conatiner-fluid border rounded px-3">
+    <div class="row bg-primary rounded mb-3">
+        <h2 class="">order id {{order.order_id}}</h2>
+    </div>
+    <div class="row ">
+        <div *ngIf="order.amount" class="m-3">
+            <strong>
+                {{order.amount}} {{order.currency}}
+            </strong>
+        </div>
+        <div>
+            <strong class="">
+                {{order.status}}
+            </strong> {{order.status_code}} {{order.status_detail}}</div>
+        <div *ngIf="order.created_date">
+            {{order.created_date.getDate()}}/{{order.created_date.getMonth()}}/{{order.created_date.getFullYear()}}
+        </div>
+    </div>
+</div>
+

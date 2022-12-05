@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
 
 declare let dlocal: any;
 
 @Injectable({
   providedIn: 'root'
 })
-export class DLocal2Service {
+export class DLocalService {
 
   fields: any;
   card: any;
@@ -18,22 +19,53 @@ export class DLocal2Service {
       color: "#32325d",
     }
   };
-
+  private smallKey: string;
   dlocalInstance: any;
 
   element: any;
 
-  constructor() {
-    this.dlocalInstance = dlocal('db252d4e-4617-48b2-b946-5d5f39cfbcb9')
+  constructor(private httpClient: HttpClient ,
+    @Inject('SMALL_KEY') smallKey: string,
+    @Inject('METHODS') private methodsUrl: string
+    ) {
+    this.smallKey = smallKey;
+    this.appendScript()
+    // this.dlocalInstance = dlocal(this.smallKey);
+    // this.fields = this.dlocalInstance.fields({
+    //   locale: 'es',
+    //   country: 'UY'
+    // });
+
+    // this.card = this.fields.create('card', { style: this.style });
+  }
+  
+  async appendScript() {
+    try {
+      const script : HTMLElement = document.createElement('script');
+      script.setAttribute('src', 'https://js-sandbox.dlocal.com');
+      script.onload = () => {
+        console.log('loaded dlocal script', window)
+      }
+
+      document.head.appendChild(script);
+    } catch (error) {
+        console.error(error);
+    }
+  }
+
+  removeScript() {
+    document.querySelector('script[src="https://js-sandbox.dlocal.com"]')?.remove()
+    console.log('head end', document.head)
+  }
+
+  mount(){
+    this.dlocalInstance = dlocal(this.smallKey);
     this.fields = this.dlocalInstance.fields({
       locale: 'es',
       country: 'UY'
     });
 
     this.card = this.fields.create('card', { style: this.style });
-  }
-
-  mount(){
     this.mountCard();
   }
 
@@ -74,4 +106,10 @@ export class DLocal2Service {
       });
     }
   }
+
+  getMethods() {
+    return this.httpClient.get(this.methodsUrl);
+  }
+
+  
 }
