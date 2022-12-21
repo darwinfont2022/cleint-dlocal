@@ -1,23 +1,72 @@
-<form id="payment-form" class="container" [formGroup]="form" (ngSubmit)="pay()">
-  <div class="row">
-    <div class="col-md-4">
-      <label for="card-field">
-        Credit or Debit card
-      </label>
-      <div>Fecha de expiracion</div>
-      <div>Codigo de seguridad</div>
-    </div>
-    <div class="col-md-8 mp-3">
-      <div id="card-field" class="form-control">
-   
+<form class="conatiner-fluid"
+      [formGroup]="form" (ngSubmit)="pay()">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card m-3 pb-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-2" *ngFor="let method of methods">
+              <img class="border rounded w-100" [src]="method.logo"> 
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+
+          <div class="row p-3">
+            <div class="col-md-6">
+              <label>Card Number</label>
+              <div id="panField">x</div>
+            </div>
+
+            <div class="col-md-5">
+              <div class="row justify-content-evenly">
+                <div class="col-4">
+                  <label>Expiration</label>
+                  <div id="expirationField">x</div>
+                </div>
+                <div class="col-4">
+                  <label>Cvv</label>
+                  <div id="cvvField">x</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row p-3">
+            <div class="col-md-6">
+            <label for="card-holder">Cardholder name</label>
+            <div class="mb-3">
+              <input
+                  id="card-holder"
+                  type="text"
+                  name="card-holder"
+                  placeholder="John Doe"
+                  formControlName="cardHolderName" 
+                  class="ml-3 border border-primary rounded w-100"
+                  />
+            </div>
+            </div>
+            <div class="col-md-6">
+            <label for="document">Document: </label>
+            <div class="mb-3">
+              <input
+                 id="document"
+                 formControlName="document"
+                 type="text"
+                 class="ml-3 border border-primary rounded w-100"
+                 placeholder="11111111"
+               />
+            </div>
+            </div>
+          </div>
+
+          <div class="row p-3 pb-0 justify-content-center">
+            <button type="submit" class="btn btn-primary w-25">
+              <strong>Pagar</strong>
+            </button>
+          </div>
+        </div>
       </div>
-   
-      <div id="card-errors" role="alert"></div>
     </div>
   </div>
-  <div class="form-row">
-    <label>Cardholder name</label>
-    <input id="card-holder" type="text" name="card-holder" placeholder="John Doe" formControlName="cardHolderName" />
-  </div>
-  <button type="submit" class="btn btn-primary" [disabled]="!form.valid" >Pay</button>
-</form> 
+</form>

@@ -1,5 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+  import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, Output, EventEmitter } from '@angular/core';
+import { Observable, from, merge, of, fromEvent, Subject, BehaviorSubject, filter } from 'rxjs';
+
+import { Settings, Brand, EventChangePanField, } from '../../model/DlocalSettings'
+import { create, removeScript } from './moutScript/mountScript';
+import { Field } from './model/field';
 
 declare let dlocal: any;
 
@@ -9,107 +14,148 @@ declare let dlocal: any;
 export class DLocalService {
 
   fields: any;
-  card: any;
-  expiration: any;
-  cvv: any;
-  style = {
-    base: {
-      // Add your base input styles here. For example:
-      fontSize: '16px',
-      color: "#32325d",
-    }
-  };
-  private smallKey: string;
-  dlocalInstance: any;
 
-  element: any;
+  private dlocalInstance: any;
 
-  constructor(private httpClient: HttpClient ,
-    @Inject('SMALL_KEY') smallKey: string,
+  constructor(
+    private httpClient: HttpClient,
+    @Inject('DLOCAL_CDN_URL') private cdnURL: string,
+    @Inject('SMALL_KEY') private smallKey: string,
     @Inject('METHODS') private methodsUrl: string
-    ) {
-    this.smallKey = smallKey;
-    this.appendScript()
-    // this.dlocalInstance = dlocal(this.smallKey);
-    // this.fields = this.dlocalInstance.fields({
-    //   locale: 'es',
-    //   country: 'UY'
-    // });
-
-    // this.card = this.fields.create('card', { style: this.style });
+  ) {
+    this.dlocalInstance = null;
   }
-  
-  async appendScript() {
-    try {
-      const script : HTMLElement = document.createElement('script');
-      script.setAttribute('src', 'https://js-sandbox.dlocal.com');
-      script.onload = () => {
-        console.log('loaded dlocal script', window)
-      }
 
-      document.head.appendChild(script);
-    } catch (error) {
-        console.error(error);
-    }
+  // Creando Observable de insercion y lectura del CDN
+  init(): Observable<any> {
+    return new Observable((observer) => {
+      const scriptCreated = create(this.cdnURL);
+
+      const handler = () => {
+        this.dlocalInstance = dlocal(this.smallKey);//Creando instancia dlocal
+
+        this.fields = this.dlocalInstance.fields({//Creando intancia de fields
+          locale: 'es',
+          country: 'UY'
+        });
+
+        const data = from([this.dlocalInstance]);
+        
+        return observer.next({
+          message: "Dlocal instance created successfully",
+          instance: this.dlocalInstance
+        });
+      }
+      scriptCreated.addEventListener('load', handler, false);
+
+      return () => scriptCreated.removeEventListener('load', handler, false);
+    });
   }
 
   removeScript() {
-    document.querySelector('script[src="https://js-sandbox.dlocal.com"]')?.remove()
-    console.log('head end', document.head)
+    removeScript(this.cdnURL)
   }
 
-  mount(){
-    this.dlocalInstance = dlocal(this.smallKey);
-    this.fields = this.dlocalInstance.fields({
-      locale: 'es',
-      country: 'UY'
-    });
+  // Mounting
+  mountField(
+    type: 'pan' | 'expiration' | 'cvv' | 'card',
+    containerId: string = 'panField',
+    settings: Settings = this.defaultSettings(),
+    errorContainer?: string
+  ) {
+    
+    const field = this.fields.create(type, settings);
+    field.mount(document.getElementById(containerId));
+    
+    return { 
+      type: type ,
+      onChange: this.fieldChange({...field}),
+      onComplete: this.fieldComplete({...field}),
+      onFocus: this.fieldFocus({...field}),
+      onBlur: this.fieldBlur({...field}),
+      onBrand: this.fieldBrand({...field}),
+      onError: this.fieldError({...field}),
 
-    this.card = this.fields.create('card', { style: this.style });
-    this.mountCard();
+      ...field,
+      createToken: (name: string, currency: string) => from([field.createToken({
+        name: name,
+        currency: currency
+      })])
+     };
   }
 
-  getCardElement() {
-    this.element = document.getElementById('card-field')
-    return this.element;
-  }
+  fieldEventListener(
+    field: Field,
+    eventName: 'change' | 'focus' | 'blur' | 'brand' | 'error' | 'complete' | 'empty' | 'ready' | 'autofilled',
+    errorHandler?: Function
+    ): Observable<EventChangePanField> {
+    return new Observable<any>((observer) => {
+      const handler = (e: EventChangePanField) => {
+       return observer.next(e);
+      }
 
-  mountCard() {
-    // Mounting card element
-    this.card.mount(document.getElementById('card-field'))
-    // Handling errors
-    this.card.addEventListener('change', (event: any) => {
-      let displayError = document.getElementById('card-errors');
-      if (displayError) {
-        if (event.error) {
-          displayError.textContent = event.error.message;
-        } else {
-          displayError.textContent = '';
+      try {
+        field.on(eventName, handler);
+
+        return () => {
+          console.error(`Error occurred on ${field.type} event name: ${eventName}`);
+          field.blur();
         }
+      } catch (_) {
+        return observer.error('Field Undefined or null')
       }
     })
   }
 
-  generateToken(cardHolderName: string){
-    // const cardHolderName: HtmlE = document.getElementById('card-holder');
-    if (cardHolderName) {
-      console.log(cardHolderName);
-      this.dlocalInstance.createToken(this.card, {
-        name: cardHolderName,
-        currency: 'UYU'
-      })
-      .then((response: any) => {
-        console.log(response);
-      })
-      .catch(() => {
-        console.log('Error creating token');
-      });
-    }
+  fieldChange(field: Field): Observable<any> {
+    return this.fieldEventListener(field, 'change');
   }
 
-  getMethods() {
-    return this.httpClient.get(this.methodsUrl);
+  fieldComplete(field: any): Observable<any> {
+    return this.fieldEventListener(field, 'change').pipe(
+      filter((e) => e.complete === true)
+    ); 
+  }
+
+  fieldError(field: any): Observable<any> {
+    return this.fieldEventListener(field, 'error');
+  }
+
+  fieldBrand(field: any): Observable<any> {
+    return this.fieldEventListener(field, 'brand');
+  }
+
+  fieldFocus(field: any): Observable<any>  {
+    return this.fieldEventListener(field, 'focus');
+  }
+
+  fieldBlur(field: any): Observable<any> {
+    return this.fieldEventListener(field, 'blur');
   }
 
   
+
+  fieldToken(field: Field, cardHolderName: string, currency: string = 'UYU'): Observable<any> {
+
+    return from(this.dlocalInstance.createToken(field, {
+      name: cardHolderName,
+      currency: currency
+    }));
+    //.then((response: any) => {
+    //  console.log(response);
+    //})
+    //.catch(() => {
+    //  console.log('Error creating token');
+    // });
+  }
+
+  defaultSettings(): Settings {
+    return {
+      style: {
+        base: {
+          fontSize: '16px',
+        }
+      }
+    }
+  }
 }

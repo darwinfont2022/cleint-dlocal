@@ -4,6 +4,10 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
+function getCDN(){
+    return environment.dlocalCDN;
+}
+
 function getSmallKey() {
   return environment.smallKey;
 }
@@ -24,6 +28,7 @@ const getTicketUrl = () => `${getDlocalLanding()}${environment.ticketsUrl}`;
 const getBancTransfer = () => `${getDlocalLanding()}${environment.bankTransfer}`
 
 const providers = [
+  { provide: 'DLOCAL_CDN_URL', useFactory: getCDN, deps: [] },
   { provide: 'SMALL_KEY', useFactory: getSmallKey, deps: [] },
   { provide: 'API_URL', useFactory: getApiUrl, deps: [] },
   // REDIRECT URL

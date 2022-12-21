@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbActiveModal, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MethodsComponent } from './component/methods/methods.component';
-import { PaymentFormComponent } from './component/payment-form/payment-form.component';
 import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { FormCardInfoComponent } from './component/form-card-info/form-card-info.component';
 import { FormGenerateOrderComponent } from './component/form-generate-order/form-generate-order.component';
@@ -17,7 +16,6 @@ import { SmallFieldsComponent } from './component/small-fields/small-fields.comp
   declarations: [
     AppComponent,
     MethodsComponent,
-    PaymentFormComponent,
     DashboardComponent,
     FormCardInfoComponent,
     FormGenerateOrderComponent,

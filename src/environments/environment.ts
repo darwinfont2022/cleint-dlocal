@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
+  dlocalCDN: 'https://js-sandbox.dlocal.com',
   smallKey: '472e55c5-ebcb-4326-8036-cdfe6bcec7d0',
-  apiUrl: 'https://darwinfont.loca.lt',
+  apiUrl: 'http://localhost:8080', // 'https://darwinfont.loca.lt',
   methods: '/methods',
 
   apiUrlDirect: '/payments',
